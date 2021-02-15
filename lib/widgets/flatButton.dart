@@ -5,11 +5,12 @@ class CustomFlatButton extends StatelessWidget {
   String text;
   double textSize;
   IconData icon;
-
+  String route;
   CustomFlatButton({
     @required this.text,
     @required this.textSize,
     this.icon,
+    this.route,
   });
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,9 @@ class CustomFlatButton extends StatelessWidget {
           ],
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushNamed('/$route');
+      },
     );
   }
 }

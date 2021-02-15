@@ -1,4 +1,5 @@
 // Module Imports
+import 'package:exam_app_teachers/views/createExam.dart';
 import 'package:exam_app_teachers/views/home.dart';
 import 'package:exam_app_teachers/views/signin.dart';
 import 'package:exam_app_teachers/views/signup.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/signup2': (BuildContext context) => SignUp2(),
         '/main': (BuildContext context) => EntryPage(),
         '/homescreen': (BuildContext context) => HomeScreen(),
+        '/createform': (BuildContext context) => CreateExam(),
       },
       home: EntryPage(),
     );

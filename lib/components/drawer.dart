@@ -19,6 +19,7 @@ class DrawerComponent extends StatelessWidget {
             text: 'Create an Exam',
             textSize: 25,
             icon: Icons.view_list_outlined,
+            route: 'createform',
           ),
           Divider(
             indent: 50,
