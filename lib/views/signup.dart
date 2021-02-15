@@ -1,8 +1,11 @@
+// Module Import
+import 'package:flutter/material.dart';
+
+// Local Import
 import 'package:exam_app_teachers/components/Header.dart';
 import 'package:exam_app_teachers/components/personalDetails.dart';
 import 'package:exam_app_teachers/widgets/filledButtons.dart';
 import 'package:exam_app_teachers/widgets/outlineButtons.dart';
-import 'package:flutter/material.dart';
 
 class SignUp extends StatelessWidget {
   @override

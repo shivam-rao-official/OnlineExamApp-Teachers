@@ -1,6 +1,9 @@
+// Module Import
+import 'package:flutter/material.dart';
+
+// Local Import
 import 'package:exam_app_teachers/components/appbar.dart';
 import 'package:exam_app_teachers/components/drawer.dart';
-import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

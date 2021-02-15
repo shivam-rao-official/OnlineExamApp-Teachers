@@ -1,12 +1,12 @@
 // Module Imports
+import 'package:flutter/material.dart';
+
+// Local Import
 import 'package:exam_app_teachers/views/createExam.dart';
 import 'package:exam_app_teachers/views/home.dart';
 import 'package:exam_app_teachers/views/signin.dart';
 import 'package:exam_app_teachers/views/signup.dart';
 import 'package:exam_app_teachers/views/signup2.dart';
-import 'package:flutter/material.dart';
-
-// Local Import
 import 'package:exam_app_teachers/views/entry.dart';
 
 void main() {

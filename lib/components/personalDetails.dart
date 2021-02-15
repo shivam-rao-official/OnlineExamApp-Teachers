@@ -1,5 +1,8 @@
-import 'package:exam_app_teachers/widgets/inputFields.dart';
+// Module Import
 import 'package:flutter/material.dart';
+
+// Local Import
+import 'package:exam_app_teachers/widgets/inputFields.dart';
 
 class PersonalDetailsBox extends StatelessWidget {
   @override

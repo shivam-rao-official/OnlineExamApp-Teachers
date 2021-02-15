@@ -1,4 +1,4 @@
-import 'package:exam_app_teachers/components/drawer.dart';
+// Module Import
 import 'package:flutter/material.dart';
 
 class AppBarComponent extends StatelessWidget {

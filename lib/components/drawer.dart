@@ -1,6 +1,9 @@
+// Module Import
+import 'package:flutter/material.dart';
+
+// Local Import
 import 'package:exam_app_teachers/widgets/flatButton.dart';
 import 'package:exam_app_teachers/widgets/outlineButtons.dart';
-import 'package:flutter/material.dart';
 
 class DrawerComponent extends StatelessWidget {
   @override
