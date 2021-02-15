@@ -1,5 +1,7 @@
 // Module Imports
 import 'package:exam_app_teachers/views/signin.dart';
+import 'package:exam_app_teachers/views/signup.dart';
+import 'package:exam_app_teachers/views/signup2.dart';
 import 'package:flutter/material.dart';
 
 // Local Import
@@ -21,6 +23,9 @@ class MyApp extends StatelessWidget {
       ),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => SignIn(),
+        '/signup': (BuildContext context) => SignUp(),
+        '/signup2': (BuildContext context) => SignUp2(),
+        '/main': (BuildContext context) => EntryPage(),
       },
       home: EntryPage(),
     );

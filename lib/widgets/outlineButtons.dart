@@ -23,9 +23,13 @@ class CustomOutlineButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () {
-        Navigator.of(context).pushReplacementNamed('/$route');
-      },
+      onPressed: route == null
+          ? () {
+              print("Sign In");
+            }
+          : () {
+              Navigator.of(context).pushReplacementNamed('/$route');
+            },
       child: Padding(
         padding: const EdgeInsets.only(
           left: 70,

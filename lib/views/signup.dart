@@ -1,10 +1,10 @@
-import 'package:exam_app_teachers/components/loginDetails.dart';
 import 'package:exam_app_teachers/components/Header.dart';
+import 'package:exam_app_teachers/components/personalDetails.dart';
 import 'package:exam_app_teachers/widgets/filledButtons.dart';
 import 'package:exam_app_teachers/widgets/outlineButtons.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatelessWidget {
+class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,21 +13,21 @@ class SignIn extends StatelessWidget {
           child: Column(
             children: [
               ScreenHeader(
-                headerText: "Sign In",
+                headerText: "Sign Up",
               ),
               SizedBox(
                 height: 20,
               ),
               Column(
                 children: [
-                  LoginDetailsBox(),
+                  PersonalDetailsBox(),
                   SizedBox(height: 20),
                   CustomOutlineButton(
-                    text: "Sign In",
+                    text: "Proceed",
                     textSize: 30,
                     radius: 30,
                     outlineWidth: 3,
-                    route: 'main',
+                    route: 'signup2',
                   ),
                   SizedBox(height: 20),
                   Divider(
@@ -40,7 +40,7 @@ class SignIn extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      isRegisteredLabel("Yet Not Registered ?", 15),
+                      isRegisteredLabel("Already Registered ?", 15),
                       SizedBox(width: 10),
                       CustomFilledButton(
                         text: "Click Here",

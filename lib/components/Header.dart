@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SignInHeader extends StatelessWidget {
+// ignore: must_be_immutable
+class ScreenHeader extends StatelessWidget {
+  String headerText;
+  ScreenHeader({
+    @required this.headerText,
+  });
   @override
   Widget build(BuildContext context) {
     return Align(

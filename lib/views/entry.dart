@@ -19,6 +19,7 @@ class EntryPage extends StatelessWidget {
               radius: 40,
               textSize: 30,
               outlineWidth: 4,
+              route: 'signup',
             ),
             SizedBox(
               height: 10,
