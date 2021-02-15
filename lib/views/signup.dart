@@ -46,6 +46,7 @@ class SignUp extends StatelessWidget {
                         text: "Click Here",
                         radius: 5,
                         textSize: 15,
+                        route: 'main',
                       ),
                     ],
                   ),

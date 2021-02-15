@@ -27,6 +27,7 @@ class SignUp2 extends StatelessWidget {
                     textSize: 30,
                     radius: 30,
                     outlineWidth: 3,
+                    route: 'homescreen',
                   ),
                   SizedBox(height: 20),
                   Divider(
@@ -45,6 +46,7 @@ class SignUp2 extends StatelessWidget {
                         text: "Click Here",
                         radius: 5,
                         textSize: 15,
+                        route: 'main',
                       ),
                     ],
                   ),

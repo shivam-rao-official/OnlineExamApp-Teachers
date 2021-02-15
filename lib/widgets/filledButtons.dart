@@ -5,21 +5,25 @@ class CustomFilledButton extends StatelessWidget {
   String text = "";
   double radius = 30;
   double textSize = 30;
-
-  onPressedFunc() {
-    print('Sign In');
-  }
+  String route;
 
   CustomFilledButton({
     @required this.text,
     @required this.radius,
     @required this.textSize,
+    this.route,
   });
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: onPressedFunc,
+      onPressed: route == null
+          ? () {
+              print('Null');
+            }
+          : () {
+              Navigator.of(context).pushReplacementNamed('/$route');
+            },
       child: Padding(
         padding: const EdgeInsets.only(
           left: 3,
