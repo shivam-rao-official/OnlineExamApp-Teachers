@@ -6,9 +6,10 @@ class SATQTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 20,
-      height: MediaQuery.of(context).size.height - 200,
+      height: MediaQuery.of(context).size.height / 2 - 90,
       decoration: BoxDecoration(
-        color: Colors.blueGrey[300],
+        color: Colors.blue[100],
+        borderRadius: BorderRadius.circular(30),
       ),
       child: SATQComp(),
     );

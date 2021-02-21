@@ -8,15 +8,25 @@ class AnswerMarks extends StatelessWidget {
       child: Container(
         child: Row(
           children: [
-            Text("Answer Key:"),
+            label("Answer Key:"),
             Expanded(child: TextField()),
             SizedBox(
               width: 30,
             ),
-            Text("Marks:"),
+            label("Marks:"),
             Expanded(child: TextField()),
           ],
         ),
+      ),
+    );
+  }
+
+  label(String str) {
+    return Text(
+      str,
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w800,
       ),
     );
   }
