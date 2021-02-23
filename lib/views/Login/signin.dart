@@ -2,12 +2,16 @@
 import 'package:flutter/material.dart';
 
 // Local Import
-import 'package:exam_app_teachers/components/loginDetails.dart';
+import 'package:exam_app_teachers/views/Login/loginDetails.dart';
 import 'package:exam_app_teachers/components/Header.dart';
 import 'package:exam_app_teachers/widgets/filledButtons.dart';
-import 'package:exam_app_teachers/widgets/outlineButtons.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
+  @override
+  _SignInState createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,14 +28,6 @@ class SignIn extends StatelessWidget {
               Column(
                 children: [
                   LoginDetailsBox(),
-                  SizedBox(height: 20),
-                  CustomOutlineButton(
-                    text: "Sign In",
-                    textSize: 30,
-                    radius: 30,
-                    outlineWidth: 3,
-                    route: 'homescreen',
-                  ),
                   SizedBox(height: 20),
                   Divider(
                     indent: 60,

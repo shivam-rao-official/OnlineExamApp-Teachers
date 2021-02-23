@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 
 // Local Import
 import 'package:exam_app_teachers/components/Header.dart';
-import 'package:exam_app_teachers/components/collegeDetails.dart';
+import 'package:exam_app_teachers/views/SignUp/personalDetails.dart';
 import 'package:exam_app_teachers/widgets/filledButtons.dart';
-import 'package:exam_app_teachers/widgets/outlineButtons.dart';
 
-class SignUp2 extends StatelessWidget {
+class SignUp extends StatefulWidget {
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,15 +27,7 @@ class SignUp2 extends StatelessWidget {
               ),
               Column(
                 children: [
-                  CollegeDetailsBox(),
-                  SizedBox(height: 20),
-                  CustomOutlineButton(
-                    text: "Sign Up",
-                    textSize: 30,
-                    radius: 30,
-                    outlineWidth: 3,
-                    route: 'homescreen',
-                  ),
+                  PersonalDetailsBox(),
                   SizedBox(height: 20),
                   Divider(
                     indent: 60,

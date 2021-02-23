@@ -17,7 +17,7 @@ class ScreenHeader extends StatelessWidget {
           top: 40.0,
         ),
         child: Container(
-          child: label("Sign In", 40),
+          child: label(headerText, 40),
         ),
       ),
     );
