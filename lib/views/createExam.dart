@@ -4,7 +4,6 @@ import 'package:exam_app_teachers/components/ExamTabs/mcqTab.dart';
 import 'package:exam_app_teachers/components/ExamTabs/oneWordTab.dart';
 import 'package:exam_app_teachers/components/ExamTabs/satq.dart';
 import 'package:exam_app_teachers/widgets/filledButtons.dart';
-import 'package:exam_app_teachers/widgets/flatButton.dart';
 import 'package:flutter/material.dart';
 
 //Local Import

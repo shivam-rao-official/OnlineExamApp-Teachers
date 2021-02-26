@@ -1,7 +1,15 @@
 // Module Import
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AppBarComponent extends StatelessWidget {
+  String name;
+  String teacherId;
+
+  AppBarComponent({
+    @required this.name,
+    @required this.teacherId,
+  });
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -17,11 +25,11 @@ class AppBarComponent extends StatelessWidget {
                 SizedBox(
                   width: 8,
                 ),
-                Text('Name'),
+                Text(name),
               ],
             ),
             Text(
-              'username@mail.com',
+              teacherId,
               style: TextStyle(
                 fontWeight: FontWeight.w800,
               ),

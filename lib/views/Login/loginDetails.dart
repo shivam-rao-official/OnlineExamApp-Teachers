@@ -1,10 +1,16 @@
 // Module Import
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+import 'package:shared_preferences/shared_preferences.dart';
 
 String name;
 String email;
 String teacherId;
 String password;
+String _name;
+String _id;
+String _token;
 bool _obscure = true;
 int counter = 0;
 
@@ -22,15 +28,8 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
     return counter % 2 != 0 ? false : true;
   }
 
-  @override
-  // ignore: must_call_super
-  void dispose() {
-    super.dispose();
-    name = null;
-    email = null;
-    teacherId = null;
-    password = null;
-  }
+  static const String url =
+      "https://online-examination-revised.herokuapp.com/teacherapi/login";
 
   @override
   Widget build(BuildContext context) {
@@ -56,35 +55,6 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
                   children: [
                     SizedBox(height: 30),
                     label("Login Details", 30),
-                    SizedBox(height: 30),
-
-                    ///
-                    ///   NAME FIELD
-                    ///
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        onChanged: (val) {
-                          name = val;
-                        },
-                        onSaved: (val) {
-                          name = val;
-                        },
-                        validator: (val) {
-                          return val.isEmpty
-                              ? "Name is required"
-                              : val.length <= 2
-                                  ? "Name must be of 3 character long."
-                                  : null;
-                        },
-                        decoration:
-                            decoration("Name", 20, 20, Icons.person, null),
-                      ),
-                    ),
                     SizedBox(height: 30),
 
                     ///
@@ -116,30 +86,6 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
                     ),
                     SizedBox(height: 30),
 
-                    ///
-                    ///   EMAIL FIELD
-                    ///
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        onChanged: (val) {
-                          email = val;
-                        },
-                        onSaved: (val) {
-                          email = val;
-                        },
-                        validator: (val) {
-                          return val.isEmpty ? "Email must not be Empty" : null;
-                        },
-                        decoration:
-                            decoration("Email", 20, 20, Icons.email, null),
-                      ),
-                    ),
-                    SizedBox(height: 30),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 20,
@@ -176,7 +122,9 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
                     MaterialButton(
                       onPressed: () {
                         if (_loginFormKey.currentState.validate()) {
-                          signInMessage();
+                          setState(() {
+                            postData();
+                          });
                         }
                       },
                       child: Padding(
@@ -258,43 +206,88 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
     );
   }
 
-  signInMessage() {
+  signInMessage(bool success, String msg) {
     return showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text("Login Alert"),
-          content: Container(
-            height: 80,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("User Logged In Succesfully"),
-                Text("Name : $name"),
-                Text("Teacher ID : $teacherId"),
-                Text("Email : $email"),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              child: Text("Proceed"),
-              onPressed: signInRoute,
-            ),
-          ],
-        );
+        return success
+            ? AlertDialog(
+                title: Text("Login Alert"),
+                content: Container(
+                  height: 80,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("User Logged In Succesfully"),
+                      Text("Name : $msg"),
+                      Text("Teacher ID : $teacherId"),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    child: Text("Proceed"),
+                    onPressed: signInRoute,
+                  ),
+                ],
+              )
+            : AlertDialog(
+                title: Text("Login Alert"),
+                content: Container(
+                  height: 80,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Oops Error Occured"),
+                      Text("Error Message ಥ_ಥ ಥ_ಥ"),
+                      Text("$msg"),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    child: Text("Retry"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
       },
     );
   }
 
-  signInRoute() {
-    Navigator.of(context).pushReplacementNamed('/homescreen', arguments: {
-      'name': name,
+  Future<void> postData() async {
+    var req = await http.post(url, body: {
       'teacherId': teacherId,
-      'email': email,
+      'password': password,
     });
+    var res = await convert.jsonDecode(req.body);
+    if (req.statusCode == 200) {
+      //  For accessing the success and error field
+      //  And pass this to generate respective message
+      _name = await res['data']['name'];
+      _id = teacherId;
+      _token = await res['token'];
+      signInMessage(res['success'], res['data']['name']);
+    } else {
+      // print(res);
+      signInMessage(res['success'], res['error']);
+    }
+  }
+
+  Future signInRoute() async {
+    SharedPreferences _loginPrefs = await SharedPreferences.getInstance();
+    //  Storing Login Details in Shred Prefs
+    await _loginPrefs.setString('NAME', _name);
+    await _loginPrefs.setString('TOKEN', _token);
+    // await _loginPrefs.setString('EMAIL', email);
+    await _loginPrefs.setString('ID', _id);
+    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacementNamed('/homescreen');
   }
 
   label(String label, double fontSize) {

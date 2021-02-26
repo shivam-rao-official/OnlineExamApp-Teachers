@@ -205,19 +205,10 @@ class _PersonalDetailsBoxState extends State<PersonalDetailsBox> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Login Alert"),
+          title: Text("Sign Up Alert"),
           content: Container(
             height: 80,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("User Logged In Succesfully"),
-                Text("Name : $name"),
-                Text("Phone Number : $phnNumber"),
-                Text("Email : $email"),
-              ],
-            ),
+            child: Text('Tap on Proceed, To Complete your Sign Up'),
           ),
           actions: [
             TextButton(

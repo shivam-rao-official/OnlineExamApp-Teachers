@@ -1,9 +1,14 @@
 // Module Import
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 String _name;
 String _email;
 String _phnNumber;
+String token;
 String teacherId;
 String department;
 String password;
@@ -22,6 +27,9 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
     print(counter);
     return counter % 2 != 0 ? false : true;
   }
+
+  static const String url =
+      "https://online-examination-revised.herokuapp.com/teacherapi/register";
 
   final _signUpKey = GlobalKey<FormState>();
   @override
@@ -128,8 +136,8 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                         validator: (val) {
                           return val.isEmpty
                               ? "Pasword must not be Empty"
-                              : val.length <= 4
-                                  ? "Password must be 5 characters long"
+                              : val.length <= 7
+                                  ? "Password must be 8 characters long"
                                   : null;
                         },
                         keyboardType: TextInputType.visiblePassword,
@@ -167,8 +175,8 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                         validator: (val) {
                           return val.isEmpty
                               ? "Pasword must not be Empty"
-                              : val.length <= 4
-                                  ? "Password must be 5 characters long"
+                              : val.length <= 7
+                                  ? "Password must be 8 characters long"
                                   : password != confirmPassword
                                       ? "Password not Matched"
                                       : null;
@@ -186,7 +194,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                     MaterialButton(
                       onPressed: () {
                         if (_signUpKey.currentState.validate()) {
-                          signUpMessage();
+                          postData();
                         }
                       },
                       child: Padding(
@@ -270,45 +278,90 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
     );
   }
 
-  signUpMessage() {
+  signUpMessage(bool success, String msg) {
     return showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text("Login Alert"),
-          content: Container(
-            height: 80,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("User Logged In Succesfully"),
-                Text("Teacher ID : $teacherId"),
-                Text("Department : $department"),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              child: Text("Proceed"),
-              onPressed: signUpRoute,
-            ),
-          ],
-        );
+        return success
+            ? AlertDialog(
+                title: Text("SignUp Alert"),
+                content: Container(
+                  height: 80,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("User $msg Created Succesfully"),
+                      Text("Teacher ID : $teacherId"),
+                      Text("Department : $department"),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    child: Text("Proceed"),
+                    onPressed: signUpRoute,
+                  ),
+                ],
+              )
+            : AlertDialog(
+                title: Text("SignUp Alert"),
+                content: Container(
+                  height: 80,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Oops Error Occured. ಥ_ಥ ಥ_ಥ"),
+                      Text("Error Message: "),
+                      Text("$msg"),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    child: Text("Proceed"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
       },
     );
   }
 
-  signUpRoute() {
-    print(_name);
-    Navigator.of(context).pushReplacementNamed('/homescreen', arguments: {
-      'teacherId': teacherId,
-      'dept': department,
+  Future signUpRoute() async {
+    SharedPreferences _signUpPrefs = await SharedPreferences.getInstance();
+    //  Store New Users Login Data
+    await _signUpPrefs.setString('NAME', _name);
+    await _signUpPrefs.setString('ID', teacherId);
+    await _signUpPrefs.setString('TOKEN', _name);
+    await _signUpPrefs.setString('EMAIL', _email);
+    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacementNamed('/homescreen');
+  }
+
+  Future<void> postData() async {
+    var req = await http.post(url, body: {
       'name': _name,
+      'phone': _phnNumber,
       'email': _email,
-      'phone': _phnNumber
+      'department': department,
+      'teacherId': teacherId,
+      'password': password,
     });
+
+    var res = await convert.jsonDecode(req.body);
+    if (req.statusCode == 200) {
+      print(res);
+      token = await res['token'];
+      signUpMessage(res['success'], res['data']['name']);
+    } else {
+      print(res);
+      signUpMessage(res['success'], res['error']);
+    }
   }
 
   label(String label, double fontSize) {

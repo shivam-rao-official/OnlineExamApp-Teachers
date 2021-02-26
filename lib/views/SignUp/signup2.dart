@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:exam_app_teachers/components/Header.dart';
 import 'package:exam_app_teachers/views/SignUp/collegeDetails.dart';
 import 'package:exam_app_teachers/widgets/filledButtons.dart';
-import 'package:exam_app_teachers/widgets/outlineButtons.dart';
 
 class SignUp2 extends StatefulWidget {
   @override
