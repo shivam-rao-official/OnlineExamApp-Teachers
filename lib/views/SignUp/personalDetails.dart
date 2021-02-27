@@ -213,7 +213,10 @@ class _PersonalDetailsBoxState extends State<PersonalDetailsBox> {
           actions: [
             TextButton(
               child: Text("Proceed"),
-              onPressed: signUpRoute,
+              onPressed: () {
+                Navigator.of(context).pop();
+                signUpRoute();
+              },
             ),
           ],
         );

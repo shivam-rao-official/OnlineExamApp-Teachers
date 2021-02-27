@@ -63,7 +63,7 @@ class _ExamInfoTabState extends State<ExamInfoTab> {
       title: label("Exam Form Details", 30),
       content: SingleChildScrollView(
         child: Container(
-          height: 660,
+          height: 700,
           width: 400,
           child: Form(
             key: _examKey,

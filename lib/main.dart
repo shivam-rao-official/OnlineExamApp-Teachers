@@ -1,9 +1,9 @@
 // Module Imports
-import 'package:exam_app_teachers/views/Exam/Exam.create/examDetails.dart';
 import 'package:flutter/material.dart';
 
 // Local Import
-import 'package:exam_app_teachers/views/createExam.dart';
+import 'package:exam_app_teachers/views/Exam/Exam.create/examDetails.dart';
+import 'package:exam_app_teachers/views/Exam/Exam.create/createExam.dart';
 import 'package:exam_app_teachers/views/home.dart';
 import 'package:exam_app_teachers/views/Login/signin.dart';
 import 'package:exam_app_teachers/views/SignUp/signup.dart';
