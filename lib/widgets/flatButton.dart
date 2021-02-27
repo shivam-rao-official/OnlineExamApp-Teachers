@@ -1,4 +1,5 @@
 // Module Import
+import 'package:exam_app_teachers/views/Exam/Exam.create/examDetails.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -42,7 +43,13 @@ class CustomFlatButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        Navigator.of(context).pushNamed('/$route');
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return ExamInfoTab();
+          },
+        );
       },
     );
   }

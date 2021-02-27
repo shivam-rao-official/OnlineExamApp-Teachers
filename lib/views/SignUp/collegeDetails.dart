@@ -278,7 +278,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
     );
   }
 
-  signUpMessage(bool success, String msg) {
+  signUpMessage(bool success, String msg, String token) {
     return showDialog(
       barrierDismissible: false,
       context: context,
@@ -301,7 +301,9 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                 actions: [
                   TextButton(
                     child: Text("Proceed"),
-                    onPressed: signUpRoute,
+                    onPressed: () {
+                      signUpRoute(token);
+                    },
                   ),
                 ],
               )
@@ -332,12 +334,12 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
     );
   }
 
-  Future signUpRoute() async {
+  Future signUpRoute(String token) async {
     SharedPreferences _signUpPrefs = await SharedPreferences.getInstance();
     //  Store New Users Login Data
     await _signUpPrefs.setString('NAME', _name);
     await _signUpPrefs.setString('ID', teacherId);
-    await _signUpPrefs.setString('TOKEN', _name);
+    await _signUpPrefs.setString('TOKEN', token);
     await _signUpPrefs.setString('EMAIL', _email);
     Navigator.of(context).pop();
     Navigator.of(context).pushReplacementNamed('/homescreen');
@@ -357,10 +359,10 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
     if (req.statusCode == 200) {
       print(res);
       token = await res['token'];
-      signUpMessage(res['success'], res['data']['name']);
+      signUpMessage(res['success'], res['data']['name'], res['token']);
     } else {
       print(res);
-      signUpMessage(res['success'], res['error']);
+      signUpMessage(res['success'], res['error'], null);
     }
   }
 

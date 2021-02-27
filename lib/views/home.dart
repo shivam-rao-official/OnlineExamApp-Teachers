@@ -27,9 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
       id = _homeScreenPrefs.get('ID');
       token = _homeScreenPrefs.get('TOKEN');
     });
-    print(_homeScreenPrefs.get('NAME'));
-    print(_homeScreenPrefs.get('ID'));
-    print(_homeScreenPrefs.get('EMAIL'));
   }
 
   void initState() {
@@ -55,7 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [],
+            children: [
+              Text("$token"),
+            ],
           ),
         ),
       ),

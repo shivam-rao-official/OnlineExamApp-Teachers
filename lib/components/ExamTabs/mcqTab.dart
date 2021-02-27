@@ -6,7 +6,7 @@ class MCQTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 20,
-      height: MediaQuery.of(context).size.height - 200,
+      height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         color: Colors.blue[100],
         borderRadius: BorderRadius.circular(30),

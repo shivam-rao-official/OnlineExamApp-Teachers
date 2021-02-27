@@ -1,4 +1,5 @@
 // Module Imports
+import 'package:exam_app_teachers/views/Exam/Exam.create/examDetails.dart';
 import 'package:flutter/material.dart';
 
 // Local Import
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         '/main': (BuildContext context) => EntryPage(),
         '/homescreen': (BuildContext context) => HomeScreen(),
         '/createform': (BuildContext context) => CreateExam(),
+        '/examInfo': (BuildContext context) => ExamInfoTab(),
       },
       home: token == null ? EntryPage() : HomeScreen(),
     );

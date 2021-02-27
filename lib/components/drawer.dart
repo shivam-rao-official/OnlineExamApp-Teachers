@@ -48,7 +48,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
             text: 'Create an Exam',
             textSize: 25,
             icon: Icons.view_list_outlined,
-            route: 'createform',
+            route: 'examInfo',
           ),
           Divider(
             indent: 50,
