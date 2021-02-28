@@ -45,7 +45,7 @@ class _SignUpState extends State<SignUp> {
                         text: "Click Here",
                         radius: 5,
                         textSize: 15,
-                        route: 'main',
+                        route: 'login',
                       ),
                     ],
                   ),

@@ -63,7 +63,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
               _prefs.remove('NAME');
               _prefs.remove('EMAIL');
               _prefs.remove('ID');
-              Navigator.of(context).pushReplacementNamed('/main');
+              Navigator.of(context).pushReplacementNamed('/login');
             },
             child: Padding(
               padding: const EdgeInsets.only(

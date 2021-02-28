@@ -9,7 +9,6 @@ import 'package:exam_app_teachers/views/home.dart';
 import 'package:exam_app_teachers/views/Login/signin.dart';
 import 'package:exam_app_teachers/views/SignUp/signup.dart';
 import 'package:exam_app_teachers/views/SignUp/signup2.dart';
-import 'package:exam_app_teachers/views/entry.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -48,7 +47,6 @@ class MyApp extends StatelessWidget {
         '/login': (BuildContext context) => SignIn(),
         '/signup': (BuildContext context) => SignUp(),
         '/signup2': (BuildContext context) => SignUp2(),
-        '/main': (BuildContext context) => EntryPage(),
         '/homescreen': (BuildContext context) => HomeScreen(),
         '/createform': (BuildContext context) => CreateExam(),
         '/examInfo': (BuildContext context) => ExamInfoTab(),

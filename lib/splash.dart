@@ -16,9 +16,9 @@ class _SplashScreenState extends State<SplashScreen> {
     _checkIfUserLogedIn();
     Timer(Duration(seconds: 3), () {
       if (_token != null) {
-        Navigator.of(context).pushReplacementNamed('/homeScreen');
+        Navigator.of(context).pushReplacementNamed('/homescreen');
       } else {
-        Navigator.of(context).pushReplacementNamed('/main');
+        Navigator.of(context).pushReplacementNamed('/signup');
       }
     });
   }

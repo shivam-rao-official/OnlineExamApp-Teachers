@@ -24,18 +24,21 @@ class _CreateExamState extends State<CreateExam> {
     final Map teacher = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            FormHeaderComponent(
-              subName: teacher['subName'],
-              subCode: teacher['subCode'],
-              examName: teacher['examName'],
-              fullMarks: teacher['fulMarks'],
-              sem: teacher['sem'],
-            ),
-            SizedBox(height: 20),
-            pages[_index],
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          child: Column(
+            children: [
+              FormHeaderComponent(
+                subName: teacher['subName'],
+                subCode: teacher['subCode'],
+                examName: teacher['examName'],
+                fullMarks: teacher['fulMarks'],
+                sem: teacher['sem'],
+              ),
+              SizedBox(height: 20),
+              pages[_index],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -114,11 +117,3 @@ class _CreateExamState extends State<CreateExam> {
     );
   }
 }
-
-// Text("${teacher['subName']}"),
-// CustomFilledButton(
-//   text: "Create Question Paper",
-//   radius: 30,
-//   textSize: 20,
-//   route: 'homescreen',
-// ),

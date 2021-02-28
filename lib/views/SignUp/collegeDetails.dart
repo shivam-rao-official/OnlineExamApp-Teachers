@@ -332,7 +332,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                     onPressed: () {
                       _signUpKey.currentState.reset();
                       Navigator.of(context).pop();
-                      Navigator.of(context).pushReplacementNamed('/main');
+                      Navigator.of(context).pushReplacementNamed('/signup');
                     },
                   ),
                 ],
