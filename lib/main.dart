@@ -1,4 +1,5 @@
 // Module Imports
+import 'package:exam_app_teachers/splash.dart';
 import 'package:flutter/material.dart';
 
 // Local Import
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
         '/createform': (BuildContext context) => CreateExam(),
         '/examInfo': (BuildContext context) => ExamInfoTab(),
       },
-      home: token == null ? EntryPage() : HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }

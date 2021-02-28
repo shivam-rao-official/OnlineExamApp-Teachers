@@ -12,6 +12,14 @@ class EntryPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              width: MediaQuery.of(context).size.width - 20,
+              child: Image.asset(
+                'images/hand-writing-paper-with-pen.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height: 30),
             CustomOutlineButton(
               text: "Sign Up",
               radius: 40,

@@ -49,6 +49,7 @@ flutter:
   assets:
     - icons/stick-man.svg
     - icons/HamMenu.svg
+    - images/hand-writing-paper-with-pen.jpg
     # - icons/
   #   - images/a_dot_ham.jpeg
 
