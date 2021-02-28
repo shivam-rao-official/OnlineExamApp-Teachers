@@ -77,7 +77,7 @@ class _PersonalDetailsBoxState extends State<PersonalDetailsBox> {
                         right: 20,
                       ),
                       child: TextFormField(
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.emailAddress,
                         onChanged: (val) {
                           email = val;
                         },

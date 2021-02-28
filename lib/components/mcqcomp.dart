@@ -99,7 +99,6 @@ class _MCQCompState extends State<MCQComp> {
                   marksLabel("Answer Key:"),
                   Expanded(
                     child: TextFormField(
-                      maxLines: 3,
                       controller: _ansKey,
                       validator: (val) {
                         return val.isEmpty ? "required" : null;
@@ -112,7 +111,6 @@ class _MCQCompState extends State<MCQComp> {
                   marksLabel("Marks:"),
                   Expanded(
                     child: TextFormField(
-                      maxLines: 3,
                       keyboardType: TextInputType.number,
                       controller: _marks,
                       validator: (val) {
@@ -125,8 +123,9 @@ class _MCQCompState extends State<MCQComp> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 110.0 * 2, top: 30),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 MaterialButton(
                   onPressed: () {

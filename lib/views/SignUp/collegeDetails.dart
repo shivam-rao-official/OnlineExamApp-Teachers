@@ -15,6 +15,7 @@ String password;
 String confirmPassword;
 bool _obscure = true;
 int counter = 0;
+bool isSubmit = false;
 
 class CollegeDetailsBox extends StatefulWidget {
   @override
@@ -143,6 +144,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                         keyboardType: TextInputType.visiblePassword,
                         obscuringCharacter: '*',
                         obscureText: _obscure,
+                        enableInteractiveSelection: false,
                         decoration: decoration(
                             "Password",
                             20,
@@ -184,6 +186,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                         keyboardType: TextInputType.visiblePassword,
                         obscuringCharacter: '*',
                         obscureText: _obscure,
+                        enableInteractiveSelection: false,
                         decoration: decoration(
                             "Confirm Password", 20, 20, Icons.lock, null),
                       ),
@@ -191,23 +194,25 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                     SizedBox(
                       height: 20,
                     ),
-                    MaterialButton(
-                      onPressed: () {
-                        if (_signUpKey.currentState.validate()) {
-                          postData();
-                        }
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 70,
-                          right: 70,
-                          bottom: 15,
-                          top: 15,
-                        ),
-                        child: signUpButtonText(),
-                      ),
-                      shape: signUpButtonShape(),
-                    ),
+                    isSubmit
+                        ? CircularProgressIndicator()
+                        : MaterialButton(
+                            onPressed: () {
+                              if (_signUpKey.currentState.validate()) {
+                                postData();
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 70,
+                                right: 70,
+                                bottom: 15,
+                                top: 15,
+                              ),
+                              child: signUpButtonText(),
+                            ),
+                            shape: signUpButtonShape(),
+                          ),
                     SizedBox(height: 50),
                   ],
                 ),
@@ -323,9 +328,11 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                 ),
                 actions: [
                   TextButton(
-                    child: Text("Proceed"),
+                    child: Text("Retry"),
                     onPressed: () {
+                      _signUpKey.currentState.reset();
                       Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacementNamed('/main');
                     },
                   ),
                 ],
@@ -346,6 +353,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
   }
 
   Future<void> postData() async {
+    setState(() => isSubmit = true);
     var req = await http.post(url, body: {
       'name': _name,
       'phone': _phnNumber,
@@ -364,6 +372,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
       print(res);
       signUpMessage(res['success'], res['error'], null);
     }
+    setState(() => isSubmit = false);
   }
 
   label(String label, double fontSize) {

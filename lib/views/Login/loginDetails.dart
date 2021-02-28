@@ -13,6 +13,7 @@ String _id;
 String _token;
 bool _obscure = true;
 int counter = 0;
+bool isSubmit = false;
 
 class LoginDetailsBox extends StatefulWidget {
   @override
@@ -119,25 +120,27 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    MaterialButton(
-                      onPressed: () {
-                        if (_loginFormKey.currentState.validate()) {
-                          setState(() {
-                            postData();
-                          });
-                        }
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 70,
-                          right: 70,
-                          bottom: 15,
-                          top: 15,
-                        ),
-                        child: signInButtonText(),
-                      ),
-                      shape: signInButtonShape(),
-                    ),
+                    isSubmit
+                        ? CircularProgressIndicator()
+                        : MaterialButton(
+                            onPressed: () {
+                              if (_loginFormKey.currentState.validate()) {
+                                setState(() {
+                                  postData();
+                                });
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 70,
+                                right: 70,
+                                bottom: 15,
+                                top: 15,
+                              ),
+                              child: signInButtonText(),
+                            ),
+                            shape: signInButtonShape(),
+                          ),
                     SizedBox(height: 50),
                   ],
                 ),
@@ -251,6 +254,7 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
                   TextButton(
                     child: Text("Retry"),
                     onPressed: () {
+                      _loginFormKey.currentState.reset();
                       Navigator.of(context).pop();
                     },
                   ),
@@ -261,6 +265,7 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
   }
 
   Future<void> postData() async {
+    setState(() => isSubmit = true);
     var req = await http.post(url, body: {
       'teacherId': teacherId,
       'password': password,
@@ -277,6 +282,7 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
       // print(res);
       signInMessage(res['success'], res['error']);
     }
+    setState(() => isSubmit = false);
   }
 
   Future signInRoute() async {

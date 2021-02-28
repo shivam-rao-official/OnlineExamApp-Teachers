@@ -34,30 +34,29 @@ class _SATQCompState extends State<SATQComp> {
 
           ///
           ///Marks Field
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 120.0 * 2),
-            child: Container(
-              child: Row(
-                children: [
-                  markslabel("Marks:"),
-                  Expanded(
-                    child: TextFormField(
-                      maxLines: 3,
-                      keyboardType: TextInputType.number,
-                      controller: _marks,
-                      validator: (val) {
-                        return val.isEmpty ? "required" : null;
-                      },
-                    ),
+          Container(
+            width: 200,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                markslabel("Marks:"),
+                Expanded(
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: _marks,
+                    validator: (val) {
+                      return val.isEmpty ? "required" : null;
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.only(left: 110.0 * 2, top: 30),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 MaterialButton(
                   onPressed: () {
