@@ -1,5 +1,6 @@
 // Module Import
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 // ignore: must_be_immutable
 class AppBarComponent extends StatelessWidget {
@@ -13,7 +14,7 @@ class AppBarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: HexColor('#ac0800'),
       actions: [
         Column(
           mainAxisAlignment: MainAxisAlignment.end,

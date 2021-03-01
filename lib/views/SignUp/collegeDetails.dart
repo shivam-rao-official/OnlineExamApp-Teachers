@@ -358,14 +358,14 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
       'name': _name,
       'phone': _phnNumber,
       'email': _email,
-      'department': department,
+      'dept': department,
       'teacherId': teacherId,
       'password': password,
     });
 
     var res = await convert.jsonDecode(req.body);
     if (req.statusCode == 200) {
-      print(res);
+      // print(res);
       token = await res['token'];
       signUpMessage(res['success'], res['data']['name'], res['token']);
     } else {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:exam_app_teachers/views/Login/loginDetails.dart';
 import 'package:exam_app_teachers/components/Header.dart';
 import 'package:exam_app_teachers/widgets/filledButtons.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -16,6 +17,8 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: HexColor('#b0bec5'),
+        height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
             children: [

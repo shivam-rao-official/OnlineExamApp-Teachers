@@ -1,25 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MCQComp extends StatefulWidget {
   @override
   _MCQCompState createState() => _MCQCompState();
 }
 
+String token;
+bool isSubmit = false;
+
 class _MCQCompState extends State<MCQComp> {
   int qCounter = 1;
-  TextEditingController _questions = TextEditingController();
-  TextEditingController _ansKey = TextEditingController();
-  TextEditingController _marks = TextEditingController();
+  String _questions;
+  String _ansKey;
+  String _marks;
 
-  TextEditingController _opt1 = TextEditingController();
+  String _opt1;
 
-  TextEditingController _opt2 = TextEditingController();
+  String _opt2;
 
-  TextEditingController _opt3 = TextEditingController();
+  String _opt3;
 
-  TextEditingController _opt4 = TextEditingController();
+  String _opt4;
 
   final _mcqKey = GlobalKey<FormState>();
+
+  Future getToken() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    token = _prefs.getString('TOKEN');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getToken();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -32,9 +52,11 @@ class _MCQCompState extends State<MCQComp> {
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: TextFormField(
               decoration: inpuDecor("Question"),
-              controller: _questions,
               validator: (val) {
                 return val.isEmpty ? "Please write a question." : null;
+              },
+              onChanged: (val) {
+                _questions = val;
               },
             ),
           ),
@@ -47,9 +69,11 @@ class _MCQCompState extends State<MCQComp> {
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: TextFormField(
               decoration: inpuDecor("Option 1"),
-              controller: _opt1,
               validator: (val) {
                 return val.isEmpty ? "required." : null;
+              },
+              onChanged: (val) {
+                _opt1 = val;
               },
             ),
           ),
@@ -58,9 +82,11 @@ class _MCQCompState extends State<MCQComp> {
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: TextFormField(
               decoration: inpuDecor("Option 2"),
-              controller: _opt2,
               validator: (val) {
                 return val.isEmpty ? "required." : null;
+              },
+              onChanged: (val) {
+                _opt2 = val;
               },
             ),
           ),
@@ -69,9 +95,11 @@ class _MCQCompState extends State<MCQComp> {
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: TextFormField(
               decoration: inpuDecor("Option 3"),
-              controller: _opt3,
               validator: (val) {
                 return val.isEmpty ? "required." : null;
+              },
+              onChanged: (val) {
+                _opt3 = val;
               },
             ),
           ),
@@ -80,9 +108,11 @@ class _MCQCompState extends State<MCQComp> {
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: TextFormField(
               decoration: inpuDecor("Option 4"),
-              controller: _opt4,
               validator: (val) {
                 return val.isEmpty ? "required." : null;
+              },
+              onChanged: (val) {
+                _opt4 = val;
               },
             ),
           ),
@@ -99,9 +129,11 @@ class _MCQCompState extends State<MCQComp> {
                   marksLabel("Answer Key:"),
                   Expanded(
                     child: TextFormField(
-                      controller: _ansKey,
                       validator: (val) {
                         return val.isEmpty ? "required" : null;
+                      },
+                      onChanged: (val) {
+                        _ansKey = val;
                       },
                     ),
                   ),
@@ -112,9 +144,11 @@ class _MCQCompState extends State<MCQComp> {
                   Expanded(
                     child: TextFormField(
                       keyboardType: TextInputType.number,
-                      controller: _marks,
                       validator: (val) {
                         return val.isEmpty ? "required" : null;
+                      },
+                      onChanged: (val) {
+                        _marks = val;
                       },
                     ),
                   ),
@@ -127,35 +161,32 @@ class _MCQCompState extends State<MCQComp> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                MaterialButton(
-                  onPressed: () {
-                    if (_mcqKey.currentState.validate()) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return alertBox(context);
+                isSubmit
+                    ? Row(
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(width: 3),
+                          Text("Saving..."),
+                        ],
+                      )
+                    : MaterialButton(
+                        onPressed: () {
+                          if (_mcqKey.currentState.validate()) {
+                            addQuestion();
+                          }
                         },
-                      );
-                    }
-                  },
-                  child: buttonText("Save", 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  color: Colors.black,
-                ),
+                        child: buttonText("Save", 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: Colors.black,
+                      ),
                 SizedBox(
                   width: 10,
                 ),
                 MaterialButton(
                   onPressed: () {
-                    _marks.clear();
-                    _opt1.clear();
-                    _opt2.clear();
-                    _opt3.clear();
-                    _opt4.clear();
-                    _questions.clear();
-                    _ansKey.clear();
+                    _mcqKey.currentState.reset();
                   },
                   child: buttonText("Delete", 20),
                   shape: RoundedRectangleBorder(
@@ -190,50 +221,61 @@ class _MCQCompState extends State<MCQComp> {
     );
   }
 
-  Widget alertBox(BuildContext context) {
-    return AlertDialog(
-      title: Text("Question Saved"),
-      content: Container(
-        height: 200,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Question Number:  $qCounter"),
-            Text("Question:  ${_questions.text}"),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+  Widget alertBox(BuildContext context, bool success, String msg) {
+    return success
+        ? AlertDialog(
+            title: Text("Question Saved"),
+            content: Container(
+              height: 200,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Option1: ${_opt1.text}"),
-                  Text("Option2: ${_opt2.text}"),
-                  Text("Option3: ${_opt3.text}"),
-                  Text("Option4: ${_opt4.text}"),
+                  Text("Question Number:  $qCounter"),
+                  Text("Question:  $_questions"),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Option1: $_opt1"),
+                        Text("Option2: $_opt2"),
+                        Text("Option3: $_opt3"),
+                        Text("Option4: $_opt4"),
+                      ],
+                    ),
+                  ),
+                  Text("Marks: $_marks"),
+                  Text("Answer: $_ansKey"),
                 ],
               ),
             ),
-            Text("Marks: ${_marks.text}"),
-            Text("Answer: ${_ansKey.text}"),
-          ],
-        ),
-      ),
-      actions: [
-        RaisedButton(
-          onPressed: () {
-            qCounter++;
-            _questions.clear();
-            _opt1.clear();
-            _opt2.clear();
-            _opt3.clear();
-            _opt4.clear();
-            _marks.clear();
-            _ansKey.clear();
-            Navigator.of(context).pop();
-          },
-          child: Text("OK"),
-        ),
-      ],
-    );
+            actions: [
+              RaisedButton(
+                onPressed: () {
+                  qCounter++;
+                  _mcqKey.currentState.reset();
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          )
+        : AlertDialog(
+            title: Text("Error"),
+            content: Container(
+              height: 200,
+              child: Text("$msg"),
+            ),
+            actions: [
+              RaisedButton(
+                onPressed: () {
+                  // _mcqKey.currentState.reset();
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
   }
 
   marksLabel(String str) {
@@ -266,5 +308,47 @@ class _MCQCompState extends State<MCQComp> {
         borderRadius: BorderRadius.circular(15),
       ),
     );
+  }
+
+  Future addQuestion() async {
+    setState(() => isSubmit = true);
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    const String url =
+        "https://online-examination-revised.herokuapp.com/teacherapi/setQuestionPaper";
+
+    token = _prefs.getString('TOKEN');
+    var req = await http.post(url, body: {
+      'subjectName': _prefs.getString('subName'),
+      'subjectCode': _prefs.getString('subCode'),
+      'sem': _prefs.getString('sem'),
+      'dept': _prefs.getString('dept'),
+      'examinationName': _prefs.getString('examName'),
+      'question_num': qCounter.toString(),
+      'mcq_question': _questions,
+      'options': "$_opt1, $_opt2, $_opt3, $_opt4",
+      'correct_option': _ansKey,
+      'marks_alloted': _marks,
+    }, headers: {
+      'authorization': token,
+    });
+    setState(() => isSubmit = false);
+    // print(req.body);
+    var res = await convert.jsonDecode(req.body);
+    if (req.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertBox(context, res['success'], null);
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertBox(
+              context, res['success'], res['errors']['mcq_question']);
+        },
+      );
+    }
   }
 }

@@ -1,6 +1,8 @@
 // Module Import
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 // Local Import
 import 'package:exam_app_teachers/components/appbar.dart';
@@ -48,16 +50,42 @@ class _HomeScreenState extends State<HomeScreen> {
         name: '$name',
         email: email == null ? 'usermail@oes.com' : "$email",
       ),
-      body: Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("$token"),
-            ],
-          ),
-        ),
+      body: FutureBuilder(
+        // future: getQuestion(),
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, i) {
+                return Text("Hello");
+              },
+            );
+        },
       ),
     );
+  }
+
+  Future getQuestion() async {
+    var url =
+        "https://online-examination-revised.herokuapp.com/teacherapi/seeQuestionPaper";
+
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    var req = await http.post(url, body: {
+      'subjectCode': "",
+      'subjectName': _prefs.getString('subName'),
+      'examinationName': _prefs.getString('examName'),
+    }, headers: {
+      'authorization': _prefs.getString('TOKEN'),
+    });
+
+    // print(req.body);
+    var res = await convert.jsonDecode(req.body);
+    print(res['data']['mcqQuestions']);
+    return res['data'];
   }
 }

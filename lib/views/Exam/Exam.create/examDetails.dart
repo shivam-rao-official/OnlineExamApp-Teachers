@@ -11,6 +11,7 @@ String teacherName;
 String teacherID;
 String subName;
 String subCode;
+String dept;
 String examName;
 String fullMarks;
 String sem;
@@ -31,6 +32,15 @@ class _ExamInfoTabState extends State<ExamInfoTab> {
     });
   }
 
+  Future setTeacherDetails() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await _prefs.setString('subName', subName);
+    await _prefs.setString('subCode', subCode);
+    await _prefs.setString('examName', examName);
+    await _prefs.setString('dept', dept);
+    await _prefs.setString('sem', sem);
+  }
+
   final _examKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -40,6 +50,7 @@ class _ExamInfoTabState extends State<ExamInfoTab> {
           onPressed: () {
             if (_examKey.currentState.validate()) {
               print("Pass");
+              setTeacherDetails();
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed('/createform', arguments: {
                 'subName': subName,
@@ -63,7 +74,7 @@ class _ExamInfoTabState extends State<ExamInfoTab> {
       title: label("Exam Form Details", 30),
       content: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height + 60,
           width: 400,
           child: Form(
             key: _examKey,
@@ -97,6 +108,29 @@ class _ExamInfoTabState extends State<ExamInfoTab> {
                           subName = val;
                         },
                         decoration: inputDecoration("Subject Name"),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text("Department"),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        validator: (val) {
+                          return val.isEmpty ? "Field Must not be empty" : null;
+                        },
+                        onChanged: (val) {
+                          dept = val;
+                        },
+                        onSaved: (val) {
+                          dept = val;
+                        },
+                        decoration: inputDecoration("Department"),
                       ),
                     ),
                   ],

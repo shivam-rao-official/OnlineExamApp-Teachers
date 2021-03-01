@@ -1,5 +1,6 @@
 // Module Import
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 // ignore: must_be_immutable
 class CustomFilledButton extends StatelessWidget {
@@ -44,7 +45,7 @@ class CustomFilledButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius),
       ),
-      color: Colors.black,
+      color: HexColor('#ac0800'),
     );
   }
 }

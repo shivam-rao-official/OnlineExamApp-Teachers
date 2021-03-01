@@ -22,6 +22,17 @@ Future<void> main() async {
   var _id = prefs.getString('ID');
   // ignore: unused_local_variable
   var _token = prefs.getString('TOKEN');
+  // ignore: unused_local_variable
+  var subName = prefs.getString('subName');
+  // ignore: unused_local_variable
+  var subCode = prefs.getString('subCode');
+  // ignore: unused_local_variable
+  var examName = prefs.getString('examName');
+  // ignore: unused_local_variable
+  var sem = prefs.getString('sem');
+  // ignore: unused_local_variable
+  var dept = prefs.getString('dept');
+
   runApp(MyApp(
     token: _token,
   ));

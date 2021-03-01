@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class SATQComp extends StatefulWidget {
   @override
@@ -6,8 +9,9 @@ class SATQComp extends StatefulWidget {
 }
 
 class _SATQCompState extends State<SATQComp> {
-  TextEditingController _questions = TextEditingController();
-  TextEditingController _marks = TextEditingController();
+  String _questions;
+  String _marks;
+  bool isSubmit = false;
 
   int qCounter = 1;
   final _satqKey = GlobalKey<FormState>();
@@ -24,9 +28,11 @@ class _SATQCompState extends State<SATQComp> {
             child: TextFormField(
               maxLines: 3,
               decoration: inpuDecor(),
-              controller: _questions,
               validator: (val) {
                 return val.isEmpty ? "Please write a question." : null;
+              },
+              onChanged: (val) {
+                _questions = val;
               },
             ),
           ),
@@ -43,9 +49,11 @@ class _SATQCompState extends State<SATQComp> {
                 Expanded(
                   child: TextFormField(
                     keyboardType: TextInputType.number,
-                    controller: _marks,
                     validator: (val) {
                       return val.isEmpty ? "required" : null;
+                    },
+                    onChanged: (val) {
+                      _marks = val;
                     },
                   ),
                 ),
@@ -58,30 +66,32 @@ class _SATQCompState extends State<SATQComp> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                MaterialButton(
-                  onPressed: () {
-                    if (_satqKey.currentState.validate()) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return alertBox(context);
+                isSubmit
+                    ? Row(
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(width: 3),
+                          Text("Saving..."),
+                        ],
+                      )
+                    : MaterialButton(
+                        onPressed: () {
+                          if (_satqKey.currentState.validate()) {
+                            addQuestion();
+                          }
                         },
-                      );
-                    }
-                  },
-                  child: buttonText("Save", 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  color: Colors.black,
-                ),
+                        child: buttonText("Save", 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: Colors.black,
+                      ),
                 SizedBox(
                   width: 10,
                 ),
                 MaterialButton(
                   onPressed: () {
-                    _marks.clear();
-                    _questions.clear();
+                    _satqKey.currentState.reset();
                   },
                   child: buttonText("Delete", 20),
                   shape: RoundedRectangleBorder(
@@ -129,32 +139,47 @@ class _SATQCompState extends State<SATQComp> {
     );
   }
 
-  Widget alertBox(BuildContext context) {
-    return AlertDialog(
-      title: Text("Question Saved"),
-      content: Container(
-        height: 100,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Question Number:  $qCounter"),
-            Text("Question:  ${_questions.text}"),
-            Text("Marks: ${_marks.text}"),
-          ],
-        ),
-      ),
-      actions: [
-        RaisedButton(
-          onPressed: () {
-            qCounter++;
-            _questions.clear();
-            _marks.clear();
-            Navigator.of(context).pop();
-          },
-          child: Text("OK"),
-        ),
-      ],
-    );
+  Widget alertBox(BuildContext context, bool success, String msg) {
+    return success
+        ? AlertDialog(
+            title: Text("Question Saved"),
+            content: Container(
+              height: 100,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Question Number:  $qCounter"),
+                  Text("Question:  $_questions"),
+                  Text("Marks: $_marks"),
+                ],
+              ),
+            ),
+            actions: [
+              RaisedButton(
+                onPressed: () {
+                  qCounter++;
+                  _satqKey.currentState.reset();
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          )
+        : AlertDialog(
+            title: Text("Error"),
+            content: Container(
+              height: 100,
+              child: Text("$msg"),
+            ),
+            actions: [
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
   }
 
   buttonText(String text, double fontSize) {
@@ -174,5 +199,44 @@ class _SATQCompState extends State<SATQComp> {
         ),
       ),
     );
+  }
+
+  Future addQuestion() async {
+    setState(() => isSubmit = true);
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    const String url =
+        "https://online-examination-revised.herokuapp.com/teacherapi/setQuestionPaper";
+
+    String token = _prefs.getString('TOKEN');
+    var req = await http.post(url, body: {
+      'subjectName': _prefs.getString('subName'),
+      'subjectCode': _prefs.getString('subCode'),
+      'sem': _prefs.getString('sem'),
+      'dept': _prefs.getString('dept'),
+      'examinationName': _prefs.getString('examName'),
+      'question_number': qCounter.toString(),
+      'nor_question': _questions,
+      'total_marks': _marks,
+    }, headers: {
+      'authorization': token,
+    });
+    var res = await convert.jsonDecode(req.body);
+    if (req.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertBox(context, res['success'], null);
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertBox(
+              context, res['success'], res['errors']['nor_question']);
+        },
+      );
+    }
+    setState(() => isSubmit = false);
   }
 }

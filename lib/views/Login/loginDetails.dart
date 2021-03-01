@@ -1,11 +1,10 @@
 // Module Import
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 
-String name;
-String email;
 String teacherId;
 String password;
 String _name;
@@ -43,6 +42,8 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
             color: Colors.black45,
             width: 3,
           ),
+          // 90caf9
+          color: Colors.blue[100],
         ),
         child: Column(
           children: [
@@ -87,6 +88,9 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
                     ),
                     SizedBox(height: 30),
 
+                    ///
+                    ///   TEACHER ID FIELD
+                    ///
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 20,
@@ -271,6 +275,7 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
       'password': password,
     });
     var res = await convert.jsonDecode(req.body);
+    print(res);
     if (req.statusCode == 200) {
       //  For accessing the success and error field
       //  And pass this to generate respective message
@@ -279,7 +284,6 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
       _token = await res['token'];
       signInMessage(res['success'], res['data']['name']);
     } else {
-      // print(res);
       signInMessage(res['success'], res['error']);
     }
     setState(() => isSubmit = false);

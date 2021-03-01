@@ -20,7 +20,6 @@ class CustomFlatButton extends StatelessWidget {
       splashColor: Colors.transparent,
       child: Padding(
         padding: EdgeInsets.only(
-          left: 40,
           top: 20,
           bottom: 20,
         ),

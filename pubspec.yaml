@@ -30,6 +30,7 @@ dependencies:
   dotted_border:
   http:
   shared_preferences:
+  hexcolor:
 
 dev_dependencies:
   flutter_test:
