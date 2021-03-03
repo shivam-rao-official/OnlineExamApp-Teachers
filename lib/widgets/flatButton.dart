@@ -1,4 +1,5 @@
 // Module Import
+import 'package:exam_app_teachers/components/addSubjects.dart';
 import 'package:exam_app_teachers/views/Exam/Exam.create/examDetails.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,7 @@ class CustomFlatButton extends StatelessWidget {
           context: context,
           barrierDismissible: false,
           builder: (context) {
-            return ExamInfoTab();
+            return route == "addsubject" ? AddSubjects() : ExamInfoTab();
           },
         );
       },

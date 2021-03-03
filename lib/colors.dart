@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
-const mainColor = Color(0x000000);
-const primaryColor = Color(0xFFFFFF);
-const otherColor = Color(0x7C7C7C);
+mixin MyColors {
+  Color mainColor = HexColor('464545');
+  Color primaryColor = HexColor('F0F3B0');
+  Color otherColor = HexColor('F98E90');
+  Color color = HexColor('FB5660');
+}

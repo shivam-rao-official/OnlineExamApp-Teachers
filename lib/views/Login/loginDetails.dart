@@ -42,8 +42,6 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
             color: Colors.black45,
             width: 3,
           ),
-          // 90caf9
-          color: Colors.blue[100],
         ),
         child: Column(
           children: [
@@ -206,7 +204,7 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
   signInButtonShape() {
     return OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.black,
+        color: HexColor("#FB5660"),
         width: 2,
       ),
       borderRadius: BorderRadius.circular(30),

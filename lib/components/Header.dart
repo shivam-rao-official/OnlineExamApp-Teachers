@@ -1,11 +1,14 @@
 // Module Import
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 // ignore: must_be_immutable
 class ScreenHeader extends StatelessWidget {
   String headerText;
+  String subText;
   ScreenHeader({
     @required this.headerText,
+    @required this.subText,
   });
   @override
   Widget build(BuildContext context) {
@@ -17,19 +20,31 @@ class ScreenHeader extends StatelessWidget {
           top: 40.0,
         ),
         child: Container(
-          child: label(headerText, 40),
+          child: label(headerText, subText, 40),
         ),
       ),
     );
   }
 
-  label(String label, double fontSize) {
-    return Text(
-      label,
-      style: TextStyle(
-        fontSize: fontSize,
-        fontWeight: FontWeight.w900,
-      ),
+  label(String label, String label2, double fontSize) {
+    return Row(
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: HexColor("#FB5660"),
+            fontSize: fontSize,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        Text(
+          label2,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ],
     );
   }
 }

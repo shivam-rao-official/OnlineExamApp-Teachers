@@ -1,5 +1,6 @@
 // Module Import
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 String name;
 String email;
@@ -138,6 +139,7 @@ class _PersonalDetailsBoxState extends State<PersonalDetailsBox> {
                         ),
                         child: signUpButtonText(),
                       ),
+                      splashColor: HexColor("#FB5660"),
                       shape: signUpButtonShape(),
                     ),
                     SizedBox(height: 50),
@@ -192,7 +194,7 @@ class _PersonalDetailsBoxState extends State<PersonalDetailsBox> {
   signUpButtonShape() {
     return OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.black,
+        color: HexColor("#FB5660"),
         width: 2,
       ),
       borderRadius: BorderRadius.circular(30),

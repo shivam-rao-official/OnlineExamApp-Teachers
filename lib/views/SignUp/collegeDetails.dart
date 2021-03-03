@@ -1,5 +1,6 @@
 // Module Import
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -194,6 +195,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                     SizedBox(
                       height: 20,
                     ),
+                    
                     isSubmit
                         ? CircularProgressIndicator()
                         : MaterialButton(
@@ -202,6 +204,8 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
                                 postData();
                               }
                             },
+                            color: HexColor("#FB5660"),
+                            elevation: 10,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                 left: 70,
@@ -276,7 +280,7 @@ class _CollegeDetailsBoxState extends State<CollegeDetailsBox> {
   signUpButtonShape() {
     return OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.black,
+        color: HexColor("#FB5660"),
         width: 2,
       ),
       borderRadius: BorderRadius.circular(30),

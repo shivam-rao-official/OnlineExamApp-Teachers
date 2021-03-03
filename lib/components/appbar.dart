@@ -14,7 +14,7 @@ class AppBarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: HexColor('#ac0800'),
+      backgroundColor: HexColor("#FB5660"),
       actions: [
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -22,31 +22,41 @@ class AppBarComponent extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text('Hello,'),
+                Text(
+                  'Hello,',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: HexColor("#464545"),
+                  ),
+                ),
                 SizedBox(
                   width: 8,
                 ),
-                Text(name),
+                Text(
+                  name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 20,
+                  ),
+                ),
               ],
+            ),
+            SizedBox(
+              height: 5,
             ),
             Text(
               teacherId,
               style: TextStyle(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+                color: HexColor("#464545"),
               ),
             ),
           ],
         ),
         SizedBox(
-          width: 8,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: CircleAvatar(
-            // maxRadius: 30,
-            backgroundColor: Colors.grey[300],
-            radius: 25,
-          ),
+          width: 20,
         ),
       ],
     );

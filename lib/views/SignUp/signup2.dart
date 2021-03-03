@@ -20,7 +20,8 @@ class _SignUp2State extends State<SignUp2> {
           child: Column(
             children: [
               ScreenHeader(
-                headerText: "Sign Up",
+                headerText: "Sign",
+                subText: " Up",
               ),
               SizedBox(
                 height: 20,

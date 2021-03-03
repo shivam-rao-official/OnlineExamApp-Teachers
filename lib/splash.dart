@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,15 +11,25 @@ class SplashScreen extends StatefulWidget {
 String _token;
 
 class _SplashScreenState extends State<SplashScreen> {
+  double _height = 60;
+  double _width = 60;
+  double _rad = 10;
   void initState() {
     super.initState();
     _checkIfUserLogedIn();
     Timer(Duration(seconds: 3), () {
-      if (_token != null) {
-        Navigator.of(context).pushReplacementNamed('/homescreen');
-      } else {
-        Navigator.of(context).pushReplacementNamed('/signup');
-      }
+      setState(() {
+        _height = MediaQuery.of(context).size.height;
+        _width = MediaQuery.of(context).size.width;
+        _rad = 0;
+      });
+      Timer(Duration(milliseconds: 600), () {
+        if (_token != null) {
+          Navigator.of(context).pushReplacementNamed('/homescreen');
+        } else {
+          Navigator.of(context).pushReplacementNamed('/signup');
+        }
+      });
     });
   }
 
@@ -30,51 +40,21 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: [
           Container(
+            color: HexColor("#f98e90"),
             child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Icon(
-                          Icons.edit,
-                          size: 40,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "OES",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
-                  ),
-                  Divider(
-                    endIndent: 80,
-                    indent: 80,
-                    thickness: 3,
-                  ),
-                  Text(
-                    "Online Examination System",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 50),
-                  CircularProgressIndicator(),
-                ],
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                height: _height,
+                width: _width,
+                decoration: BoxDecoration(
+                  color: HexColor("#464545"),
+                  borderRadius: BorderRadius.circular(_rad),
+                ),
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                  size: 30,
+                ),
               ),
             ),
           ),

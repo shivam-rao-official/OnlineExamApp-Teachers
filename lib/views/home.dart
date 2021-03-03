@@ -29,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
       id = _homeScreenPrefs.get('ID');
       token = _homeScreenPrefs.get('TOKEN');
     });
+
+    // getQuestion();
   }
 
   void initState() {
@@ -51,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         email: email == null ? 'usermail@oes.com' : "$email",
       ),
       body: FutureBuilder(
-        // future: getQuestion(),
+        future: getQuestion(),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return Center(
@@ -61,7 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
             return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context, i) {
-                return Text("Hello");
+                return ListTile(
+                  // tileColor: Colors.black,
+                  title: Text("${snapshot.data["subjectName"]}"),
+                );
               },
             );
         },
@@ -76,16 +81,16 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
 
     var req = await http.post(url, body: {
-      'subjectCode': "",
-      'subjectName': _prefs.getString('subName'),
-      'examinationName': _prefs.getString('examName'),
+      'subjectCode': "BCAN 501",
+      'subjectName': "JAVA",
+      'examinationName': "CA",
     }, headers: {
       'authorization': _prefs.getString('TOKEN'),
     });
 
     // print(req.body);
     var res = await convert.jsonDecode(req.body);
-    print(res['data']['mcqQuestions']);
+    print(res['data']);
     return res['data'];
   }
 }

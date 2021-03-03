@@ -45,7 +45,7 @@ class CustomFilledButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius),
       ),
-      color: HexColor('#ac0800'),
+      color: HexColor('#FB5660'),
     );
   }
 }

@@ -1,4 +1,5 @@
 // Module Imports
+import 'package:exam_app_teachers/components/addSubjects.dart';
 import 'package:exam_app_teachers/splash.dart';
 import 'package:flutter/material.dart';
 
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
         '/homescreen': (BuildContext context) => HomeScreen(),
         '/createform': (BuildContext context) => CreateExam(),
         '/examInfo': (BuildContext context) => ExamInfoTab(),
+        '/addsubject': (BuildContext context) => AddSubjects(),
       },
       home: SplashScreen(),
     );
