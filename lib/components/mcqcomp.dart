@@ -35,7 +35,6 @@ class _MCQCompState extends State<MCQComp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getToken();
   }
@@ -250,7 +249,7 @@ class _MCQCompState extends State<MCQComp> {
               ),
             ),
             actions: [
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   qCounter++;
                   _mcqKey.currentState.reset();
@@ -267,7 +266,7 @@ class _MCQCompState extends State<MCQComp> {
               child: Text("$msg"),
             ),
             actions: [
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   // _mcqKey.currentState.reset();
                   Navigator.of(context).pop();

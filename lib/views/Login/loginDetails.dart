@@ -10,6 +10,7 @@ String password;
 String _name;
 String _id;
 String _token;
+String _email;
 bool _obscure = true;
 int counter = 0;
 bool isSubmit = false;
@@ -273,13 +274,13 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
       'password': password,
     });
     var res = await convert.jsonDecode(req.body);
-    print(res);
     if (req.statusCode == 200) {
       //  For accessing the success and error field
       //  And pass this to generate respective message
       _name = await res['data']['name'];
       _id = teacherId;
       _token = await res['token'];
+      _email = await res['data']['email'];
       signInMessage(res['success'], res['data']['name']);
     } else {
       signInMessage(res['success'], res['error']);
@@ -292,7 +293,7 @@ class _LoginDetailsBoxState extends State<LoginDetailsBox> {
     //  Storing Login Details in Shred Prefs
     await _loginPrefs.setString('NAME', _name);
     await _loginPrefs.setString('TOKEN', _token);
-    // await _loginPrefs.setString('EMAIL', email);
+    await _loginPrefs.setString('EMAIL', _email);
     await _loginPrefs.setString('ID', _id);
     Navigator.of(context).pop();
     Navigator.of(context).pushReplacementNamed('/homescreen');

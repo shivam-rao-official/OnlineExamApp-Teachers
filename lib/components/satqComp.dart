@@ -155,7 +155,7 @@ class _SATQCompState extends State<SATQComp> {
               ),
             ),
             actions: [
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   qCounter++;
                   _satqKey.currentState.reset();
@@ -172,7 +172,7 @@ class _SATQCompState extends State<SATQComp> {
               child: Text("$msg"),
             ),
             actions: [
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

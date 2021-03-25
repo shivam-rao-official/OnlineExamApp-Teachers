@@ -1,6 +1,9 @@
 // Module Imports
 import 'package:exam_app_teachers/components/addSubjects.dart';
 import 'package:exam_app_teachers/splash.dart';
+import 'package:exam_app_teachers/views/Exam/Exam.log/viewExam.dart';
+import 'package:exam_app_teachers/views/utils/settings.dart';
+import 'package:exam_app_teachers/views/utils/userScreen.dart';
 import 'package:flutter/material.dart';
 
 // Local Import
@@ -52,8 +55,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Online Exam App',
       theme: ThemeData(
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        scaffoldBackgroundColor: Colors.white,
+        brightness: Brightness.light,
       ),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => SignIn(),
@@ -63,6 +65,9 @@ class MyApp extends StatelessWidget {
         '/createform': (BuildContext context) => CreateExam(),
         '/examInfo': (BuildContext context) => ExamInfoTab(),
         '/addsubject': (BuildContext context) => AddSubjects(),
+        '/viewPaper': (BuildContext context) => ViewQuestion(),
+        '/useraccounts': (BuildContext context) => UserScreen(),
+        '/settings': (BuildContext context) => SettingsScreen(),
       },
       home: SplashScreen(),
     );

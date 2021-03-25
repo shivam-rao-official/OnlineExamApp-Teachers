@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // Local Import
 import 'package:exam_app_teachers/widgets/flatButton.dart';
@@ -23,7 +24,6 @@ class DrawerComponent extends StatefulWidget {
 class _DrawerComponentState extends State<DrawerComponent> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getLocalData();
   }
@@ -44,7 +44,14 @@ class _DrawerComponentState extends State<DrawerComponent> {
               children: [
                 UserAccountsDrawerHeader(
                   decoration: BoxDecoration(
-                    color: HexColor("#464545"),
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xff464545),
+                        Color(0xffFB5660),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                   ),
                   accountName: Text(
                     widget.name,
@@ -61,10 +68,10 @@ class _DrawerComponentState extends State<DrawerComponent> {
                   ),
                 ),
                 CustomFlatButton(
-                  text: 'Create an Exam',
+                  text: "Create an Exam",
                   textSize: 20,
-                  icon: Icons.view_list_outlined,
-                  route: 'examInfo',
+                  image: SvgPicture.asset(
+                      'drawables/Icons/note_add_black_24dp.svg'),
                 ),
                 Divider(
                   thickness: 2,
@@ -72,7 +79,8 @@ class _DrawerComponentState extends State<DrawerComponent> {
                 CustomFlatButton(
                   text: 'Add Subjects',
                   textSize: 20,
-                  icon: Icons.add_circle_outline_outlined,
+                  image: SvgPicture.asset(
+                      'drawables/Icons/add_task_black_24dp.svg'),
                   route: 'addsubject',
                 ),
                 Divider(

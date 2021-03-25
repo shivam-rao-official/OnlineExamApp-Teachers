@@ -1,10 +1,12 @@
 // Module Import
 import 'package:exam_app_teachers/components/ExamTabs/mcqTab.dart';
 import 'package:exam_app_teachers/components/ExamTabs/satq.dart';
+import 'package:exam_app_teachers/components/preview.dart';
 import 'package:flutter/material.dart';
 
 //Local Import
 import 'package:exam_app_teachers/components/formHeader.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateExam extends StatefulWidget {
   @override
@@ -14,10 +16,21 @@ class CreateExam extends StatefulWidget {
 class _CreateExamState extends State<CreateExam> {
   int _index = 0;
   final pages = [
-    Center(child: Text("Preview")),
+    Preview(),
     MCQTab(),
     SATQTab(),
   ];
+
+  Future dispose() async {
+    super.dispose();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    await _prefs.remove("subName");
+    await _prefs.remove("subCode");
+    await _prefs.remove("examName");
+    await _prefs.remove("sem");
+    await _prefs.remove("dept");
+  }
 
   @override
   Widget build(BuildContext context) {

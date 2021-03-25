@@ -1,12 +1,10 @@
 // Module Import
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
+// import 'package:http/http.dart' as http;
 
 // Local Import
 import 'package:exam_app_teachers/components/appbar.dart';
-import 'package:exam_app_teachers/components/drawer.dart';
 
 String name;
 String email;
@@ -29,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
       id = _homeScreenPrefs.get('ID');
       token = _homeScreenPrefs.get('TOKEN');
     });
-
     // getQuestion();
   }
 
@@ -42,15 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100),
-        child: AppBarComponent(
-          name: '$name',
-          teacherId: '$id',
-        ),
-      ),
-      drawer: DrawerComponent(
-        name: '$name',
-        email: email == null ? 'usermail@oes.com' : "$email",
+        preferredSize: Size.fromHeight(60),
+        child: AppBarComponent(),
       ),
       body: FutureBuilder(
         future: getQuestion(),
@@ -61,11 +51,50 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else
             return ListView.builder(
-              itemCount: snapshot.data.length,
+              itemCount: 20,
               itemBuilder: (context, i) {
                 return ListTile(
-                  // tileColor: Colors.black,
-                  title: Text("${snapshot.data["subjectName"]}"),
+                  title: Text("Subject Name"),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Exam Name"),
+                          SizedBox(width: 50),
+                          Text("Full Marks"),
+                          SizedBox(width: 50),
+                          Text("Status"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("BCA"),
+                          SizedBox(width: 50),
+                          Text("SEM"),
+                        ],
+                      ),
+                    ],
+                  ),
+                  isThreeLine: true,
+                  trailing: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black12,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {},
+                    ),
+                  ),
+                  onTap: () {
+                    print(i);
+                  },
                 );
               },
             );
@@ -75,22 +104,31 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future getQuestion() async {
-    var url =
-        "https://online-examination-revised.herokuapp.com/teacherapi/seeQuestionPaper";
+    List.generate(20, (index) => index);
 
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    // var url =
+    //     "https://online-examination-revised.herokuapp.com/teacherapi/seeQuestionPaper";
 
-    var req = await http.post(url, body: {
-      'subjectCode': "BCAN 501",
-      'subjectName': "JAVA",
-      'examinationName': "CA",
-    }, headers: {
-      'authorization': _prefs.getString('TOKEN'),
-    });
+    // SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    // var req = await http.post(url, body: {
+    //   'subjectCode': "BCAN 501",
+    //   'subjectName': "JAVA",
+    //   'examinationName': "CA",
+    // }, headers: {
+    //   'authorization': _prefs.getString('TOKEN'),
+    // });
 
     // print(req.body);
-    var res = await convert.jsonDecode(req.body);
-    print(res['data']);
-    return res['data'];
+    // var res = await convert.jsonDecode(req.body);
+    // if (req.statusCode == 200) {
+    //   print(res['data']);
+    //   Navigator.of(context).pushNamed('/viewPaper', arguments: {
+    //     res["data"],
+    //   });
+    // }
+
+    // return res["data"];
+    return List;
   }
 }

@@ -10,59 +10,70 @@ class PreviewQuestion extends StatefulWidget {
 }
 
 class _PreviewQuestionState extends State<PreviewQuestion> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getQuestion();
+  Future refresh() async {
+    setState(() {
+      getMcqQuestion();
+      getNormalQuestion();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        // future: getQuestion(),
         builder: (context, snapshot) {
-          if (snapshot.data == null)
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          else
-            return Expanded(
-              child: SizedBox(
-                height: 300,
-                child: ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      child: Text("Hello"),
-                    );
-                  },
-                ),
-              ),
+          if (snapshot.data == null) {
+            return CircularProgressIndicator();
+          } else
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                return Text("$snapshot");
+              },
             );
         },
+        future: getMcqQuestion(),
       ),
     );
   }
 
-  Future getQuestion() async {
+  Future getMcqQuestion() async {
     var url =
         "https://online-examination-revised.herokuapp.com/teacherapi/seeQuestionPaper";
 
     SharedPreferences _prefs = await SharedPreferences.getInstance();
 
     var req = await http.post(url, body: {
-      'subjectCode': _prefs.getString('subCode'),
-      'subjectName': _prefs.getString('subName'),
-      'examinationName': _prefs.getString('examName'),
+      'subjectCode': _prefs.getString("subCode"),
+      'subjectName': _prefs.getString("subName"),
+      'examinationName': _prefs.getString("examName"),
     }, headers: {
       'authorization': _prefs.getString('TOKEN'),
     });
 
     // print(req.body);
     var res = await convert.jsonDecode(req.body);
-    print(res['data']['mcqQuestions']);
-    return res['data'];
+    // print(res['data']["mcqQuestions"]);
+    return res['data']["mcqQuestions"];
+  }
+
+  Future getNormalQuestion() async {
+    var url =
+        "https://online-examination-revised.herokuapp.com/teacherapi/seeQuestionPaper";
+
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    var req = await http.post(url, body: {
+      'subjectCode': _prefs.getString("subCode"),
+      'subjectName': _prefs.getString("subName"),
+      'examinationName': _prefs.getString("examName"),
+    }, headers: {
+      'authorization': _prefs.getString('TOKEN'),
+    });
+
+    // print(req.body);
+    var res = await convert.jsonDecode(req.body);
+    // print(res['data']["normalQuestions"]);
+    return res['data']["normalQuestions"];
   }
 }

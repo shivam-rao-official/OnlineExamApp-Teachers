@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:exam_app_teachers/views/Login/loginDetails.dart';
 import 'package:exam_app_teachers/components/Header.dart';
 import 'package:exam_app_teachers/widgets/filledButtons.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class SignIn extends StatefulWidget {
   @override

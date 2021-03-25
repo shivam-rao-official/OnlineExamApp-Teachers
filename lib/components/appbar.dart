@@ -1,62 +1,52 @@
 // Module Import
+import 'package:exam_app_teachers/components/addSubjects.dart';
+import 'package:exam_app_teachers/views/Exam/Exam.create/examDetails.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 // ignore: must_be_immutable
 class AppBarComponent extends StatelessWidget {
-  String name;
-  String teacherId;
-
-  AppBarComponent({
-    @required this.name,
-    @required this.teacherId,
-  });
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: HexColor("#FB5660"),
+      backgroundColor: Colors.teal,
+      title: Text("Online Exam System"),
       actions: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Hello,',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: HexColor("#464545"),
-                  ),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20,
-                  ),
-                ),
-              ],
+        PopupMenuButton<String>(
+          onSelected: (val) {
+            if (val == "addsubject" || val == "examInfo") {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return val == "addsubject" ? AddSubjects() : ExamInfoTab();
+                },
+              );
+            } else
+              Navigator.of(context).pushNamed('/$val');
+          },
+          itemBuilder: (BuildContext context) => [
+            PopupMenuItem(
+              child: Text("Accounts"),
+              value: "useraccounts",
             ),
-            SizedBox(
-              height: 5,
+            PopupMenuItem(
+              child: Text("Add Subject"),
+              value: "addsubject",
             ),
-            Text(
-              teacherId,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: HexColor("#464545"),
-              ),
+            PopupMenuItem(
+              child: Text("Create ExamPaper"),
+              value: "examInfo",
+            ),
+            PopupMenuItem(
+              child: Text("View ExamPaper"),
+              value: "View ExamPaper",
+              enabled: false,
+            ),
+            PopupMenuItem(
+              child: Text("Settings"),
+              value: "settings",
             ),
           ],
-        ),
-        SizedBox(
-          width: 20,
         ),
       ],
     );

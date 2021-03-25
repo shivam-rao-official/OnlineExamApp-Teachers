@@ -19,11 +19,11 @@ String sem;
 class _ExamInfoTabState extends State<ExamInfoTab> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getTeacherDetails();
   }
 
+  List<String> _items = ["First", 'Second', "third"];
   Future getTeacherDetails() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -46,7 +46,7 @@ class _ExamInfoTabState extends State<ExamInfoTab> {
   Widget build(BuildContext context) {
     return AlertDialog(
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: () {
             if (_examKey.currentState.validate()) {
               print("Pass");
@@ -63,12 +63,20 @@ class _ExamInfoTabState extends State<ExamInfoTab> {
           },
           child: Text("Create Question Form"),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text("Cancel"),
-          color: Colors.black,
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            color: Colors.black,
+          ),
         ),
       ],
       title: label("Exam Form Details", 30),

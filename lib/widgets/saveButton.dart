@@ -24,7 +24,7 @@ class SaveButton extends StatelessWidget {
               title: Text("Alert Box"),
               content: Text("Question Saved"),
               actions: [
-                RaisedButton(
+                ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

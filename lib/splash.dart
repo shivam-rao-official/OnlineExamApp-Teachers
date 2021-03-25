@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -40,14 +39,14 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: [
           Container(
-            color: HexColor("#f98e90"),
+            color: Color(0xfff98e90),
             child: Center(
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 height: _height,
                 width: _width,
                 decoration: BoxDecoration(
-                  color: HexColor("#464545"),
+                  color: Color(0xff464545),
                   borderRadius: BorderRadius.circular(_rad),
                 ),
                 child: Icon(

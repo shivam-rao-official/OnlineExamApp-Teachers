@@ -18,7 +18,7 @@ class _AddSubjectsState extends State<AddSubjects> {
     return AlertDialog(
       title: Text("Add Subjects"),
       content: Container(
-        height: MediaQuery.of(context).size.height / 2,
+        height: MediaQuery.of(context).size.height / 3,
         child: Form(
           key: _subKey,
           child: Column(
@@ -71,12 +71,20 @@ class _AddSubjectsState extends State<AddSubjects> {
           },
           child: Text("Add"),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text("Cancel"),
-          color: Colors.black,
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            color: Colors.black,
+          ),
         ),
       ],
     );

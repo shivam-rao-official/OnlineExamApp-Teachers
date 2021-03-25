@@ -7,42 +7,18 @@ import 'package:flutter/material.dart';
 class CustomFlatButton extends StatelessWidget {
   String text;
   double textSize;
-  IconData icon;
+  Widget image;
   String route;
   CustomFlatButton({
     @required this.text,
     @required this.textSize,
-    this.icon,
+    this.image,
     this.route,
   });
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      splashColor: Colors.transparent,
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: 20,
-          bottom: 20,
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 30,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: textSize,
-              ),
-            ),
-          ],
-        ),
-      ),
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -51,6 +27,47 @@ class CustomFlatButton extends StatelessWidget {
           },
         );
       },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20.0),
+        child: Container(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 20,
+              bottom: 20,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  child: image,
+                  height: 30,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: textSize,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
+    // return FlatButton(
+    //   splashColor: Colors.transparent,
+
+    //   onPressed: () {
+    //     showDialog(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (context) {
+    //         return route == "addsubject" ? AddSubjects() : ExamInfoTab();
+    //       },
+    //     );
+    //   },
+    // );
   }
 }
